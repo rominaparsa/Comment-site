@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>لیست کاربران</title>
+   {%  include "links.html"  %}
+</head>
+<body dir="rtl">
+  <!-- Grey with black text -->
+{% include "nav.html" with home="خانه" %}
+
+{% include "tblUser.html" with mod=model %}
+
+
+</body>
+</html>

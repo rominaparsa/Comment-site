@@ -1,0 +1,107 @@
+{% extends "_layout_publics.html" %}
+{% load static %}
+
+{% block title %}
+پنل کاربر {{ user_st.User }}
+{% endblock %}
+
+{% block User %}
+  {% if user_st.State %}
+    شما با نام کاربری {{ user_st.User }} در سایت هستید
+    <a class="btn btn-danger" href="/auth/logOut">خروج</a>
+  {% else %}
+    وارد حساب خود شوید
+  {% endif %}
+{% endblock %}
+
+{% block bady_page %}
+<div class="row" style="direction:rtl;">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header text-right">لیست سوالات</div>
+
+            <!-- افزودن سوال -->
+            <button type="button" class="btn btn-primary float-left" onclick="CreateDates()" data-toggle="modal" data-target="#askModal">
+                افزودن سوال
+            </button>
+
+            <div class="card-body">
+                <form method="post" action="" class="frm-getdata" id="frm-getdata">
+                    {% csrf_token %}
+                    <input type="hidden" name="tokens" value="milas22@@#na2#&%*@#+/2/">
+                    <div class="form-group text-right" >
+                        <label for="Search">جستجو</label>
+                        <input type="text" class="form-control" id="Search" name="search" placeholder="مقداری جستجو کنید">
+                    </div>
+                    <div class="wite"></div>
+                </form>
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>عنوان سوال</th>
+                            <th>متن سوال</th>
+                            <th>تاریخ ارسال</th>
+                            <th>اعمال</th>
+                        </tr>
+                    </thead>
+                    <tbody class="body-table">
+                        <!-- محتوا توسط Ajax پر می‌شود -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal ثبت و ویرایش -->
+    <div class="modal" id="askModal">
+        <div class="modal-dialog">
+            <div class="modal-content" style="direction:rtl;">
+                <div class="modal-header">
+                    <h4 class="modal-title text-right">اطلاعات سوال</h4>
+                    <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-right">
+                   <form method="post" id="ask-form">
+                      {% csrf_token %}
+                      <input type="hidden" name="ask_id" id="id_ask_id" value="0">
+                        <label for="id_title">عنوان سوال</label>
+                        <input type="text" name="title" id="id_title" class="form-control">
+                        <label for="id_caption">متن سوال</label>
+                        <textarea name="caption" id="id_caption" class="form-control"></textarea>
+                        <div class="alert alert-info result" style="display:none"></div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-success mt-2 save-data">ثبت تغییرات</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal حذف -->
+    <div class="modal" id="askModalDelet">
+        <div class="modal-dialog">
+            <div class="modal-content" style="direction:rtl;">
+                <div class="modal-header">
+                    <h4 class="modal-title text-right">حذف سوال</h4>
+                    <button type="button" class="close ml-0" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body text-right">
+                    <form method="post" id="frm-delet">
+                      {% csrf_token %}
+                      <input type="hidden" name="ask_id" id="id_ask_id_delete" value="">
+                        آیا از حذف این سوال اطمینان دارید؟
+                        <div class="alert alert-info result-delete" style="display:none"></div>
+                        <div class="text-left">
+                            <button type="submit" class="btn btn-danger mt-2 accepted-delete">تایید حذف</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{% static 'js/script_panel.js' %}"></script>
+{% endblock %}

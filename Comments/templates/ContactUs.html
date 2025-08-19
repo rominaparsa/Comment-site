@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>فرم پشتیبانی</title>
+    {% include "links.html" %}
+    <style>
+        .card {
+            margin-top: 50px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            float: right;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        input, textarea {
+            direction: rtl;
+        }
+    </style>
+</head>
+<body dir="rtl" style="background: aliceblue;">
+<div class="container">
+    <div class="card p-4">
+        <form action="{{ action }}" method="post" novalidate>
+            {% csrf_token %}
+            {% for item in form %}
+                <div class="form-group">
+                    {{ item.label_tag }}
+                    {{ item }}
+                    <div class="valid-feedback">معتبر است.</div>
+                    <div class="invalid-feedback">{{ item.errors }}</div>
+                </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>

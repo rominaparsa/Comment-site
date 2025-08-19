@@ -1,0 +1,42 @@
+{% extends "_layout.html" %}
+
+{% block titel %}صفحه ورود{% endblock %}
+
+{% block titelform %}
+      <h3 class="text-uppercase">خوش آمدید به <strong>گفتینو</strong></h3>
+{% endblock %}
+
+{% block forms %}
+           <form action="Checklogin" method="post">
+                       {% csrf_token %}
+                           {% for item in form %}
+                            <div class="form-group first">
+                               {{ item.label_tag }}
+                               {{ item }}
+                            </div>
+                            {% endfor %}
+
+                          <div class="d-sm-flex mb-5 align-items-center">
+                            <label class="control control--checkbox mb-3 mb-sm-0">
+                              <input type="checkbox" checked="checked name="rimander"/>
+                              <div class="control__indicator"></div>
+                               <span class="caption">مرا به خاطر بسپار</span>
+                            </label>
+                          </div>
+
+                          <input type="submit" value="ورود" class="btn btn-block py-2 btn-primary">
+
+
+                          <span class="text-center my-3 d-block">یا</span>
+
+
+                          <div class="">
+                          <a href="/auth/register" class="btn btn-block py-2 btn-facebook">
+                            <span class="icon-facebook mr-3"></span> ثبت نام
+                          </a>
+                             <a href="/auth/register" class="btn btn-block py-2 btn-google">
+                            <span class="icon-facebook mr-3"></span>فراموشی رمز عبور
+                          </a>
+                          </div>
+                        </form>
+                    {% endblock %}

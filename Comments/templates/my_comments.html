@@ -1,0 +1,152 @@
+{% load static %}
+<html lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <title>لیست نظرات من</title>
+    <link rel="stylesheet" {% static 'css/style.css' %}>
+
+    {% include "links.html" %}
+</head>
+<body  dir="rtl">
+<div class="container mt-5">
+    <div class="card">
+        <div class="card-header text-right">
+            لیست نظرات من
+            <a href="/Contact">افزودن نظر</a>
+              <button type="button" data-toggle="modal" data-target="#AddModal">افزودن نظر</button>
+        </div>
+        <div class="row card-body">
+            <div class="col-md-12">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>نام کامل</th>
+                            <th>ایمیل</th>
+                            <th>پیام</th>
+                            <th>اعمال</th>
+                        </tr>
+                    </thead>
+ <tbody>
+                {% for item in MyCommentList %}
+                    <tr>
+                        <td>{{ item.FullName }}</td>
+                        <td>{{ item.Email }}</td>
+                        <td>{{ item.Message }}</td>
+                        <td><a href="/EditContact/{{ item.Id }}">ویرایش</a>
+                        <button type="button"
+                                onclick="SetVal('{{ item.FullName }}','{{ item.Phones }}','{{ item.Email }}','{{ item.Message }}','{{ item.Id }}')"
+                                class="btn btn-info" data-toggle="modal" data-target="#EditModal">ویرایش</button>
+                        <button type="button" onclick="SetDelet('/DeleteContact/{{ item.Id }}')" data-toggle="modal" data-target="#myModal" class="btn btn-danger">حذف</button></td>
+                    </tr>
+                {% endfor %}
+</tbody>
+
+
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Edit -->
+    <div class="modal" id="EditModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">ویرایش نظر</h4>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="/EditSave" id="formEdit" method="post">
+                        {% csrf_token %}
+                        {% for item in form %}
+                            <div class="form-group">
+                                {{ item.label_tag }}
+                                {{ item }}
+                                <div class="valid-feedback">معتبر است.</div>
+                                <div class="invalid-feedback">{{ item.errors }}</div>
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-primary">ثبت اطلاعات</button>
+                    </form>
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">بستن فرم</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Delete -->
+    <div class="modal" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">حذف نظر</h4>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    آیا از حذف این نظر اطمینان دارید؟
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <a class="btn btn-danger" href="" id="deletItem">بله حذف کن</a>
+                    <button type="button" class="btn btn-info" data-dismiss="modal">خیر</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for Edit -->
+    <div class="modal" id="AddModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <h4 class="modal-title">افزودن نظر</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <!-- Modal body -->
+                <div class="modal-body">
+                    <form action="Contact" method="post">
+                        {% csrf_token %}
+                        {% for item in form %}
+                            <div class="form-group">
+                                {{ item.label_tag }}
+                                {{ item }}
+                                <div class="valid-feedback">معتبر است.</div>
+                                <div class="invalid-feedback">{{ item.errors }}</div>
+                            </div>
+                        {% endfor %}
+                        <button type="submit" class="btn btn-success">ثبت اطلاعات</button>
+                    </form>
+                </div>
+
+<script>
+    function SetDelet(value) {
+        document.getElementById("deletItem").href = value;
+    }
+
+    function SetVal(FullName, Phones, Email, Message, Id)
+    {
+        document.getElementById("id_FullName").value = FullName;
+        document.getElementById("id_Phones").value = Phones;
+        document.getElementById("id_Email").value = Email;
+        document.getElementById("id_Message").value = Message;
+        document.getElementById("id_Id").value = Id;
+    }
+</script>
+</body>
+</html>

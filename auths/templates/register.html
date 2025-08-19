@@ -1,0 +1,30 @@
+{% extends "_layout.html" %}
+
+{% block titel %}صفحه ورود{% endblock %}
+
+{% block titelform %}
+      <h3 class="text-uppercase">به خانواده<strong>گفتینو</strong>بپیوندید</h3>
+{% endblock %}
+
+{% block forms %}
+           <form action="registerAction" method="post">
+                        {% csrf_token %}
+                           {% for item in form %}
+                            <div class="form-group first">
+                               {{ item.label_tag }}
+                               {{ item }}
+                            </div>
+                            {% endfor %}
+                          <input type="submit" value="ثبت نام" class="btn btn-block py-2 btn-primary">
+
+
+                          <span class="text-center my-3 d-block">یا</span>
+
+
+                          <div class="">
+                          <a href="/auth" class="btn btn-block py-2 btn-facebook">
+                            <span class="icon-facebook mr-3"></span>ورود
+                          </a>
+                          </div>
+                        </form>
+                    {% endblock %}
